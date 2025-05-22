@@ -1,23 +1,39 @@
 package com.serenitydojo.playwright;
 
 import com.microsoft.playwright.Browser;
+import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.Playwright;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
-
+import com.microsoft.playwright.junit.UsePlaywright;
+import org.junit.jupiter.api.*;
+@UsePlaywright
 public class ASimplePlaywrightTest {
 
     @Test
-    void shouldShowThePageTitle() {
-        Playwright playwright = Playwright.create();
-        Browser browser = playwright.chromium().launch();
-        Page page = browser.newPage();
+    void shouldShowThePageTitle(Page page) {
 
-        page.navigate("https://practicesoftwaretesting.com/");
+        page.navigate("https://practicesoftwaretesting.com/");""
         String title = page.title();
         Assertions.assertTrue( title.contains("Practice Software Testing"));
 
-        browser.close();
+    }
+
+    @Test
+    void shouldSearchByKeyword(Page page) {
+
+        page.navigate("https://practicesoftwaretesting.com/");
+        page.locator("#search-query")
+                .fill("pliers");
+        page.locator("button:has-text('Search')").click();
+
+        int matchingSearchResults = page.locator(".card").count();
+        Assertions.assertTrue(matchingSearchResults > 0);
+        Locator cardTitles = page.locator(".card-title");
+        int cardTitlesCount = cardTitles.count();
+        for (int i = 0; i < cardTitlesCount; i++) {
+            System.out.println("cardTitles = " + cardTitles.nth(i).textContent());
+//            Assertions.assertTrue(cardTitles.nth(i).textContent().contains("Pliers"));
+        }
+
     }
 }
