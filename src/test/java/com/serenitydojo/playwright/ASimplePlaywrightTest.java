@@ -8,8 +8,4 @@ import org.junit.jupiter.api.Test;
 
 public class ASimplePlaywrightTest {
 
-    @Test
-    void shouldShowThePageTitle() {
-        // TODO: Write your first playwright test here
-    }
 }
