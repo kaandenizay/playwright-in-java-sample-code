@@ -1,18 +1,33 @@
 package com.serenitydojo.playwright;
 
-import com.microsoft.playwright.Browser;
-import com.microsoft.playwright.Locator;
-import com.microsoft.playwright.Page;
-import com.microsoft.playwright.Playwright;
+import com.microsoft.playwright.*;
+import com.microsoft.playwright.junit.Options;
+import com.microsoft.playwright.junit.OptionsFactory;
 import com.microsoft.playwright.junit.UsePlaywright;
 import org.junit.jupiter.api.*;
-@UsePlaywright
+
+import java.util.Arrays;
+
+@UsePlaywright(ASimplePlaywrightTest.CustomOptions.class)
 public class ASimplePlaywrightTest {
+
+    public static class CustomOptions implements OptionsFactory {
+        @Override
+        public Options getOptions() {
+            return new Options()
+                    .setHeadless(false)
+                    .setLaunchOptions(
+                            new BrowserType.LaunchOptions()
+                                    .setSlowMo(500)
+                                    .setArgs(Arrays.asList("--no-sandbox", "--disable-gpu"))
+                    );
+        }
+    }
 
     @Test
     void shouldShowThePageTitle(Page page) {
 
-        page.navigate("https://practicesoftwaretesting.com/");""
+        page.navigate("https://practicesoftwaretesting.com/");
         String title = page.title();
         Assertions.assertTrue( title.contains("Practice Software Testing"));
 
@@ -32,7 +47,7 @@ public class ASimplePlaywrightTest {
         int cardTitlesCount = cardTitles.count();
         for (int i = 0; i < cardTitlesCount; i++) {
             System.out.println("cardTitles = " + cardTitles.nth(i).textContent());
-//            Assertions.assertTrue(cardTitles.nth(i).textContent().contains("Pliers"));
+            Assertions.assertTrue(cardTitles.nth(i).textContent().contains("Pliers"));
         }
 
     }
