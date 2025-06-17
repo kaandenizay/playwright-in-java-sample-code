@@ -58,7 +58,7 @@ public class PlaywrightFormTest {
         @DisplayName("Mandatory fields")
         @ParameterizedTest
         @ValueSource(strings = {"First name", "Last name", "Email", "Message"})
-        void mandatoryFields(String fieldName, Page page) {
+        void mandatoryFields(String fieldName, Page page) {  // injected Page parameter should be the end
             var firstNameField = page.getByLabel("First name");
             var lastNameField = page.getByLabel("Last name");
             var emailNameField = page.getByLabel("Email");
