@@ -56,6 +56,8 @@ public class AddingItemsToTheCartTest {
         page.locator("#search-query").fill("Pliers");
 //        page.getByPlaceholder("Search").fill("Pliers");
         page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Search")).click();
+
+        PlaywrightAssertions.assertThat(page).hasTitle("Practice Software Testing - Toolshop - v5.0");
         assertThat(page.locator(".card")).hasCount(4);
 
         List<String> productNames = page.getByTestId("product-name").allTextContents();
