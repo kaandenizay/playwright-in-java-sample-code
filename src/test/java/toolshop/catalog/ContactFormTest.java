@@ -3,12 +3,11 @@ package toolshop.catalog;
 import com.microsoft.playwright.options.AriaRole;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.*;
-import org.junit.jupiter.api.parallel.Execution;
-import org.junit.jupiter.api.parallel.ExecutionMode;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import toolshop.catalog.pageobjects.ContactForm;
 import toolshop.fixtures.PlaywrightBaseTest;
+import toolshop.fixtures.PlaywrightBaseTestForParallel;
 
 import java.net.URISyntaxException;
 import java.nio.file.Path;
@@ -16,7 +15,6 @@ import java.nio.file.Paths;
 import java.util.List;
 
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
-@Execution(ExecutionMode.SAME_THREAD)
 public class ContactFormTest extends PlaywrightBaseTest {
 
     ContactForm contactForm;

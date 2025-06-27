@@ -1,11 +1,9 @@
 package toolshop.fixtures;
 
 import com.microsoft.playwright.*;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.*;
 
+import java.nio.file.Paths;
 import java.util.Arrays;
 
 public abstract class PlaywrightBaseTest {
@@ -30,11 +28,24 @@ public abstract class PlaywrightBaseTest {
     void setUpBrowserContext() {
         browserContext = browser.newContext();
         page = browserContext.newPage();
+
+        browserContext.tracing().start(
+                new Tracing.StartOptions()
+                        .setScreenshots(true)
+                        .setSnapshots(true)
+                        .setSources(true));
     }
 
+
     @AfterEach
-    void closeContext() {
+    void closeContext(TestInfo testInfo) {
+        String testName = testInfo.getTestMethod().get().getName();
+        browserContext.tracing().stop(
+                new Tracing.StopOptions()
+                        .setPath(Paths.get( "target/traces/" + testName + "-trace.zip"))
+        );
         browserContext.close();
+
     }
 
     @AfterAll
