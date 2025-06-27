@@ -1,8 +1,8 @@
-package com.serenitydojo.playwright.login;
+package exercises.login;
 
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.options.AriaRole;
-import com.serenitydojo.playwright.domain.User;
+import exercises.domain.User;
 
 public class LoginPage {
     private final Page page;

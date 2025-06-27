@@ -1,4 +1,4 @@
-package com.serenitydojo.playwright.fixtures;
+package exercises.fixtures;
 
 import com.microsoft.playwright.*;
 import org.junit.jupiter.api.AfterAll;

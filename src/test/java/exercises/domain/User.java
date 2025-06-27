@@ -1,4 +1,4 @@
-package com.serenitydojo.playwright.domain;
+package exercises.domain;
 
 import net.datafaker.Faker;
 import java.util.Map;

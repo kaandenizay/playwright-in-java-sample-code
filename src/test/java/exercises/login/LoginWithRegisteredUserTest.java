@@ -1,7 +1,7 @@
-package com.serenitydojo.playwright.login;
+package exercises.login;
 
-import com.serenitydojo.playwright.domain.User;
-import com.serenitydojo.playwright.fixtures.PlaywrightTestCase;
+import exercises.domain.User;
+import exercises.fixtures.PlaywrightTestCase;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

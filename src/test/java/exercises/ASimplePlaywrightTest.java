@@ -1,4 +1,4 @@
-package com.serenitydojo.playwright;
+package exercises;
 
 import com.microsoft.playwright.*;
 import com.microsoft.playwright.junit.Options;
@@ -8,38 +8,24 @@ import org.junit.jupiter.api.*;
 
 import java.util.Arrays;
 
-public class ASimplePlaywrightWithoutAnnotationTest {
+@UsePlaywright(ASimplePlaywrightTest.CustomOptions.class)
+public class ASimplePlaywrightTest {
 
-    private static Playwright playwright;
-    private static Browser browser;
-    private static BrowserContext browserContext;
-    Page page;
-
-    @BeforeAll
-    public static void setUpBrowser() {
-        playwright = Playwright.create();
-        browser = playwright.chromium().launch(
-                new BrowserType.LaunchOptions()
-                        .setSlowMo(750)
-                        .setHeadless(false)
-                        .setArgs(Arrays.asList("--no-sandbox", "--disable-extensions", "--disable-gpu"))
-        );
-        browserContext = browser.newContext();
-    }
-
-    @BeforeEach
-    public void setUp() {
-        page = browserContext.newPage();
-    }
-
-    @AfterAll
-    public static void tearDown(){
-        browser.close();
-        playwright.close();
+    public static class CustomOptions implements OptionsFactory {
+        @Override
+        public Options getOptions() {
+            return new Options()
+                    .setHeadless(false)
+                    .setLaunchOptions(
+                            new BrowserType.LaunchOptions()
+                                    .setSlowMo(500)
+                                    .setArgs(Arrays.asList("--no-sandbox", "--disable-gpu"))
+                    );
+        }
     }
 
     @Test
-    void shouldShowThePageTitle() {
+    void shouldShowThePageTitle(Page page) {
 
         page.navigate("https://practicesoftwaretesting.com/");
         String title = page.title();
@@ -48,7 +34,7 @@ public class ASimplePlaywrightWithoutAnnotationTest {
     }
 
     @Test
-    void shouldSearchByKeyword() {
+    void shouldSearchByKeyword(Page page) {
 
         page.navigate("https://practicesoftwaretesting.com/");
         page.locator("#search-query")
