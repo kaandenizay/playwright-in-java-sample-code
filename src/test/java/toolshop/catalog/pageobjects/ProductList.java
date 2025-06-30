@@ -16,6 +16,10 @@ public class ProductList {
         return page.getByTestId("product-name").allInnerTexts();
     }
 
+    public List<String> getProductPrices() {
+        return page.getByTestId("product-price").allInnerTexts();
+    }
+
     public void viewProductDetails(String productName) {
         page.locator(".card").getByText(productName).click();
     }
