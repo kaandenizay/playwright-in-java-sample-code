@@ -1,6 +1,6 @@
 package toolshop.catalog;
 
-import com.microsoft.playwright.Page;
+import io.qameta.allure.Feature;
 import toolshop.catalog.pageobjects.*;
 import toolshop.fixtures.PlaywrightBaseTest;
 import org.assertj.core.api.Assertions;
@@ -8,10 +8,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import toolshop.fixtures.PlaywrightBaseTestForParallel;
 
 @DisplayName("Searching for products")
-public class SearchForProductsBaseTest extends PlaywrightBaseTest {
+@Feature("Product Catalog")
+public class SearchForProductsTest extends PlaywrightBaseTest {
 
     SearchComponent searchComponent;
     ProductList productList;

@@ -1,15 +1,19 @@
 package toolshop.catalog;
 
+import io.qameta.allure.Feature;
+import io.qameta.allure.Story;
+import org.junit.jupiter.api.DisplayName;
 import toolshop.catalog.pageobjects.*;
 import toolshop.fixtures.PlaywrightBaseTest;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import toolshop.fixtures.PlaywrightBaseTestForParallel;
 
 import java.util.List;
 
-public class AddToCartBaseTest extends PlaywrightBaseTest {
+@DisplayName("Shopping Cart")
+@Feature("Shopping Cart")
+public class AddToCartTest extends PlaywrightBaseTest {
 
     SearchComponent searchComponent;
     ProductList productList;
@@ -19,7 +23,7 @@ public class AddToCartBaseTest extends PlaywrightBaseTest {
 
     @BeforeEach
     void openHomePage() {
-        page.navigate("https://practicesoftwaretesting.com");
+        navBar.openHomePage();
     }
 
     @BeforeEach
@@ -32,6 +36,7 @@ public class AddToCartBaseTest extends PlaywrightBaseTest {
     }
 
     @Test
+    @Story("Checking out a product")
     void whenCheckingOutASingleItem() {
         searchComponent.searchBy("pliers");
         productList.viewProductDetails("Combination Pliers");
@@ -54,6 +59,7 @@ public class AddToCartBaseTest extends PlaywrightBaseTest {
     }
 
     @Test
+    @Story("Checking out multiple product")
     void whenCheckingOutMultipleItems() {
         navBar.openHomePage();
         productList.viewProductDetails("Bolt Cutters");

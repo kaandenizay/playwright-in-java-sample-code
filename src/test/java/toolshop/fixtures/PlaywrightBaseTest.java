@@ -1,8 +1,10 @@
 package toolshop.fixtures;
 
 import com.microsoft.playwright.*;
+import io.qameta.allure.Allure;
 import org.junit.jupiter.api.*;
 
+import java.io.ByteArrayInputStream;
 import java.nio.file.Paths;
 import java.util.Arrays;
 
@@ -40,6 +42,7 @@ public abstract class PlaywrightBaseTest {
     @AfterEach
     void closeContext(TestInfo testInfo) {
         String testName = testInfo.getTestMethod().get().getName();
+        takeScreenshot(testName);
         browserContext.tracing().stop(
                 new Tracing.StopOptions()
                         .setPath(Paths.get( "target/traces/" + testName + "-trace.zip"))
@@ -52,6 +55,13 @@ public abstract class PlaywrightBaseTest {
     static void tearDown() {
         browser.close();
         playwright.close();
+    }
+
+    protected void takeScreenshot(String name) {
+        var screenshot = page.screenshot(
+                new Page.ScreenshotOptions()
+                        .setFullPage(true));
+        Allure.addAttachment(name, new ByteArrayInputStream(screenshot));
     }
 
 }
