@@ -3,6 +3,7 @@ package toolshop.cucumber.stepdefinitions;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.Before;
 import io.cucumber.java.DataTableType;
+import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -11,10 +12,7 @@ import toolshop.catalog.pageobjects.NavBar;
 import toolshop.catalog.pageobjects.ProductList;
 import toolshop.catalog.pageobjects.SearchComponent;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class ProductCatalogStepDefinitions{
 
@@ -59,5 +57,68 @@ public class ProductCatalogStepDefinitions{
                                             "Price", matchingProductsPrices.get(i)));
         }
         Assertions.assertThat(actualProductsMapList).isEqualTo(expectedProducts);
+    }
+
+    @Then("No products should be displayed")
+    public void noProductsShouldBeDisplayed() {
+        var matchingProducts = productList.getProductNames();
+        Assertions.assertThat(matchingProducts).isEmpty();
+    }
+
+    @And("The message {string} should be displayed")
+    public void theMessageShouldBeDisplayed(String message) {
+        String completionMessage = productList.getSearchCompletedMessage();
+        Assertions.assertThat(completionMessage).isEqualTo(message);
+    }
+
+    @And("She filters by {string}")
+    public void sheFiltersBy(String filterName) {
+        searchComponent.filterBy(filterName);
+    }
+
+    @When("She sorts by {string}")
+    public void sheSortsBy(String sortCriteria) {
+        searchComponent.sortBy(sortCriteria);
+    }
+
+    @Then("The first product displayed should be {string}")
+    public void theFirstProductDisplayedShouldBe(String productName) {
+        List<String> productNames = productList.getProductNames();
+        Assertions.assertThat(productNames).startsWith(productName);
+    }
+
+    @And("Products should be sorted correctly as {string}")
+    public void productsShouldBeSortedCorrectlyAs(String sortType) {
+        List<String> productNames = productList.getProductNames();
+        List<String> productsPrices = productList.getProductPrices();
+        ArrayList<String> originalListProductNames;
+        ArrayList<Double> originalListProductPrices;
+        ArrayList<Double> willBeSortedProductPrices;
+        switch (sortType) {
+            case "alphabetic":
+                originalListProductNames = new ArrayList<>(productNames);
+                Collections.sort(productNames);
+                Assertions.assertThat(originalListProductNames).isEqualTo(productNames);
+                break;
+            case "alphabetic-reversed":
+                originalListProductNames = new ArrayList<>(productNames);
+                Collections.sort(productNames, Collections.reverseOrder());
+                Assertions.assertThat(originalListProductNames).isEqualTo(productNames);
+                break;
+            case "numeric":
+                originalListProductPrices = new ArrayList<>(
+                        productsPrices.stream().map(price -> Double.valueOf(price.replace("$", ""))).toList());
+                willBeSortedProductPrices = new ArrayList<>(originalListProductPrices);
+                Collections.sort(willBeSortedProductPrices);
+                Assertions.assertThat(originalListProductPrices).isEqualTo(willBeSortedProductPrices);
+                break;
+            case "numeric-reversed":
+                originalListProductPrices = new ArrayList<>(
+                        productsPrices.stream().map(price -> Double.valueOf(price.replace("$", ""))).toList());
+                willBeSortedProductPrices = new ArrayList<>(originalListProductPrices);
+                Collections.sort(willBeSortedProductPrices, Collections.reverseOrder());
+                Assertions.assertThat(originalListProductPrices).isEqualTo(willBeSortedProductPrices);
+                break;
+        }
     }
 }
